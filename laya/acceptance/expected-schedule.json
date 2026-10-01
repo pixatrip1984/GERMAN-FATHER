@@ -1,0 +1,527 @@
+{
+  "version": 1,
+  "timezoneMode": "device",
+  "missedAlarmPolicy": "skip",
+  "audioRotation": [
+    "1.mp3",
+    "2.mp3",
+    "3.mp3"
+  ],
+  "week": {
+    "MONDAY": {
+      "timeline": [
+        {
+          "time": "07:00",
+          "task": "CORRAL"
+        },
+        {
+          "time": "07:25",
+          "task": "TRASTES"
+        },
+        {
+          "time": "08:00",
+          "task": "PERSONAL"
+        },
+        {
+          "time": "08:30",
+          "task": "GIMNASIO"
+        },
+        {
+          "time": "10:00",
+          "task": "DUCHA"
+        },
+        {
+          "time": "10:20",
+          "task": "TAREA"
+        },
+        {
+          "time": "11:20",
+          "task": "COMER"
+        },
+        {
+          "time": "12:00",
+          "task": "ESCUELA"
+        },
+        {
+          "time": "20:00",
+          "task": "COMER"
+        },
+        {
+          "time": "20:40",
+          "task": "TAREA"
+        },
+        {
+          "time": "23:10",
+          "task": "DORMIR"
+        }
+      ],
+      "alerts": [
+        {
+          "time": "07:00",
+          "task": "CORRAL",
+          "visual": "CORRAL.png"
+        },
+        {
+          "time": "07:25",
+          "task": "TRASTES",
+          "visual": "TRASTES.png"
+        },
+        {
+          "time": "08:00",
+          "task": "PERSONAL",
+          "visual": "PERSONAL.png"
+        },
+        {
+          "time": "08:30",
+          "task": "GIMNASIO",
+          "visual": "GIMNASIO.png"
+        },
+        {
+          "time": "10:00",
+          "task": "DUCHA",
+          "visual": "DUCHA.png"
+        },
+        {
+          "time": "10:20",
+          "task": "TAREA",
+          "visual": "TAREA.png"
+        },
+        {
+          "time": "11:20",
+          "task": "COMER",
+          "visual": "COMER.png"
+        },
+        {
+          "time": "12:00",
+          "task": "IRSE",
+          "visual": "IRSE.png"
+        },
+        {
+          "time": "20:00",
+          "task": "COMER",
+          "visual": "COMER.png"
+        },
+        {
+          "time": "20:40",
+          "task": "TAREA",
+          "visual": "TAREA.png"
+        },
+        {
+          "time": "23:10",
+          "task": "DORMIR",
+          "visual": "DORMIR.png"
+        }
+      ]
+    },
+    "TUESDAY": {
+      "timeline": [
+        {
+          "time": "07:00",
+          "task": "CORRAL"
+        },
+        {
+          "time": "07:25",
+          "task": "TRASTES"
+        },
+        {
+          "time": "08:00",
+          "task": "GIMNASIO"
+        },
+        {
+          "time": "10:00",
+          "task": "DUCHA"
+        },
+        {
+          "time": "10:20",
+          "task": "TAREA"
+        },
+        {
+          "time": "11:20",
+          "task": "COMER"
+        },
+        {
+          "time": "12:00",
+          "task": "ESCUELA"
+        },
+        {
+          "time": "20:00",
+          "task": "COMER"
+        },
+        {
+          "time": "20:40",
+          "task": "TAREA"
+        },
+        {
+          "time": "23:10",
+          "task": "DORMIR"
+        }
+      ],
+      "alerts": [
+        {
+          "time": "07:00",
+          "task": "CORRAL",
+          "visual": "CORRAL.png"
+        },
+        {
+          "time": "07:25",
+          "task": "TRASTES",
+          "visual": "TRASTES.png"
+        },
+        {
+          "time": "08:00",
+          "task": "GIMNASIO",
+          "visual": "GIMNASIO.png"
+        },
+        {
+          "time": "10:00",
+          "task": "DUCHA",
+          "visual": "DUCHA.png"
+        },
+        {
+          "time": "10:20",
+          "task": "TAREA",
+          "visual": "TAREA.png"
+        },
+        {
+          "time": "11:20",
+          "task": "COMER",
+          "visual": "COMER.png"
+        },
+        {
+          "time": "12:00",
+          "task": "IRSE",
+          "visual": "IRSE.png"
+        },
+        {
+          "time": "20:00",
+          "task": "COMER",
+          "visual": "COMER.png"
+        },
+        {
+          "time": "20:40",
+          "task": "TAREA",
+          "visual": "TAREA.png"
+        },
+        {
+          "time": "23:10",
+          "task": "DORMIR",
+          "visual": "DORMIR.png"
+        }
+      ]
+    },
+    "WEDNESDAY": {
+      "timeline": [
+        {
+          "time": "07:00",
+          "task": "CORRAL"
+        },
+        {
+          "time": "07:25",
+          "task": "TRASTES"
+        },
+        {
+          "time": "08:00",
+          "task": "PERSONAL"
+        },
+        {
+          "time": "08:30",
+          "task": "GIMNASIO"
+        },
+        {
+          "time": "10:00",
+          "task": "DUCHA"
+        },
+        {
+          "time": "10:20",
+          "task": "TAREA"
+        },
+        {
+          "time": "11:20",
+          "task": "COMER"
+        },
+        {
+          "time": "12:00",
+          "task": "ESCUELA"
+        },
+        {
+          "time": "20:00",
+          "task": "COMER"
+        },
+        {
+          "time": "20:40",
+          "task": "TAREA"
+        },
+        {
+          "time": "23:10",
+          "task": "DORMIR"
+        }
+      ],
+      "alerts": [
+        {
+          "time": "07:00",
+          "task": "CORRAL",
+          "visual": "CORRAL.png"
+        },
+        {
+          "time": "07:25",
+          "task": "TRASTES",
+          "visual": "TRASTES.png"
+        },
+        {
+          "time": "08:00",
+          "task": "PERSONAL",
+          "visual": "PERSONAL.png"
+        },
+        {
+          "time": "08:30",
+          "task": "GIMNASIO",
+          "visual": "GIMNASIO.png"
+        },
+        {
+          "time": "10:00",
+          "task": "DUCHA",
+          "visual": "DUCHA.png"
+        },
+        {
+          "time": "10:20",
+          "task": "TAREA",
+          "visual": "TAREA.png"
+        },
+        {
+          "time": "11:20",
+          "task": "COMER",
+          "visual": "COMER.png"
+        },
+        {
+          "time": "12:00",
+          "task": "IRSE",
+          "visual": "IRSE.png"
+        },
+        {
+          "time": "20:00",
+          "task": "COMER",
+          "visual": "COMER.png"
+        },
+        {
+          "time": "20:40",
+          "task": "TAREA",
+          "visual": "TAREA.png"
+        },
+        {
+          "time": "23:10",
+          "task": "DORMIR",
+          "visual": "DORMIR.png"
+        }
+      ]
+    },
+    "THURSDAY": {
+      "timeline": [
+        {
+          "time": "07:00",
+          "task": "CORRAL"
+        },
+        {
+          "time": "07:25",
+          "task": "TRASTES"
+        },
+        {
+          "time": "08:00",
+          "task": "GIMNASIO"
+        },
+        {
+          "time": "10:00",
+          "task": "DUCHA"
+        },
+        {
+          "time": "10:20",
+          "task": "TAREA"
+        },
+        {
+          "time": "11:20",
+          "task": "COMER"
+        },
+        {
+          "time": "12:00",
+          "task": "ESCUELA"
+        },
+        {
+          "time": "20:00",
+          "task": "COMER"
+        },
+        {
+          "time": "20:40",
+          "task": "TAREA"
+        },
+        {
+          "time": "23:10",
+          "task": "DORMIR"
+        }
+      ],
+      "alerts": [
+        {
+          "time": "07:00",
+          "task": "CORRAL",
+          "visual": "CORRAL.png"
+        },
+        {
+          "time": "07:25",
+          "task": "TRASTES",
+          "visual": "TRASTES.png"
+        },
+        {
+          "time": "08:00",
+          "task": "GIMNASIO",
+          "visual": "GIMNASIO.png"
+        },
+        {
+          "time": "10:00",
+          "task": "DUCHA",
+          "visual": "DUCHA.png"
+        },
+        {
+          "time": "10:20",
+          "task": "TAREA",
+          "visual": "TAREA.png"
+        },
+        {
+          "time": "11:20",
+          "task": "COMER",
+          "visual": "COMER.png"
+        },
+        {
+          "time": "12:00",
+          "task": "IRSE",
+          "visual": "IRSE.png"
+        },
+        {
+          "time": "20:00",
+          "task": "COMER",
+          "visual": "COMER.png"
+        },
+        {
+          "time": "20:40",
+          "task": "TAREA",
+          "visual": "TAREA.png"
+        },
+        {
+          "time": "23:10",
+          "task": "DORMIR",
+          "visual": "DORMIR.png"
+        }
+      ]
+    },
+    "FRIDAY": {
+      "timeline": [
+        {
+          "time": "07:00",
+          "task": "CORRAL"
+        },
+        {
+          "time": "07:25",
+          "task": "TRASTES"
+        },
+        {
+          "time": "08:00",
+          "task": "PERSONAL"
+        },
+        {
+          "time": "08:30",
+          "task": "GIMNASIO"
+        },
+        {
+          "time": "10:00",
+          "task": "DUCHA"
+        },
+        {
+          "time": "10:20",
+          "task": "TAREA"
+        },
+        {
+          "time": "11:20",
+          "task": "COMER"
+        },
+        {
+          "time": "12:00",
+          "task": "ESCUELA"
+        },
+        {
+          "time": "20:00",
+          "task": "COMER"
+        },
+        {
+          "time": "20:40",
+          "task": "TAREA"
+        },
+        {
+          "time": "23:10",
+          "task": "DORMIR"
+        }
+      ],
+      "alerts": [
+        {
+          "time": "07:00",
+          "task": "CORRAL",
+          "visual": "CORRAL.png"
+        },
+        {
+          "time": "07:25",
+          "task": "TRASTES",
+          "visual": "TRASTES.png"
+        },
+        {
+          "time": "08:00",
+          "task": "PERSONAL",
+          "visual": "PERSONAL.png"
+        },
+        {
+          "time": "08:30",
+          "task": "GIMNASIO",
+          "visual": "GIMNASIO.png"
+        },
+        {
+          "time": "10:00",
+          "task": "DUCHA",
+          "visual": "DUCHA.png"
+        },
+        {
+          "time": "10:20",
+          "task": "TAREA",
+          "visual": "TAREA.png"
+        },
+        {
+          "time": "11:20",
+          "task": "COMER",
+          "visual": "COMER.png"
+        },
+        {
+          "time": "12:00",
+          "task": "IRSE",
+          "visual": "IRSE.png"
+        },
+        {
+          "time": "20:00",
+          "task": "COMER",
+          "visual": "COMER.png"
+        },
+        {
+          "time": "20:40",
+          "task": "TAREA",
+          "visual": "TAREA.png"
+        },
+        {
+          "time": "23:10",
+          "task": "DORMIR",
+          "visual": "DORMIR.png"
+        }
+      ]
+    },
+    "SATURDAY": {
+      "timeline": [],
+      "alerts": []
+    },
+    "SUNDAY": {
+      "timeline": [],
+      "alerts": []
+    }
+  }
+}
