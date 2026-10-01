@@ -55,7 +55,7 @@ object ScheduleParser {
             parsedDays[day] = parseDay(dayName, dayObject, taskSet, availableAssets)
         }
         requireValid(
-            parsedDays.keys == DayOfWeek.entries.toSet(),
+            parsedDays.keys == DayOfWeek.values().toSet(),
             "days must contain exactly all seven weekdays",
         )
 
