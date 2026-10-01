@@ -1,0 +1,781 @@
+{
+  "schemaVersion": 1,
+  "kind": "LAYA_PROJECT_ENTRY",
+  "project": {
+    "name": "GERMAN FATHER",
+    "packageId": "german-father-android-v1",
+    "repo": "pixatrip1984/GERMAN-FATHER",
+    "repoRoot": "C:\\dev\\GERMAN-FATHER",
+    "baseBranch": "main",
+    "headSha": "e84a81508a1bab57d421d7881e32022c5b0398d5",
+    "lastCompletedPR": 0,
+    "generatedAt": "2026-10-01T18:06:25.843805Z",
+    "startMode": "new",
+    "authoringMode": "github-connector",
+    "localPrValidation": "commands",
+    "validationSetup": [],
+    "authoritativeGate": [
+      {
+        "command": "{workspace}\\gradlew.bat",
+        "args": [
+          ":app:testDebugUnitTest",
+          "--no-daemon"
+        ],
+        "timeoutMs": 1200000,
+        "expectedExitCodes": [
+          0
+        ]
+      },
+      {
+        "command": "{workspace}\\gradlew.bat",
+        "args": [
+          ":app:lintDebug",
+          "--no-daemon"
+        ],
+        "timeoutMs": 1200000,
+        "expectedExitCodes": [
+          0
+        ]
+      },
+      {
+        "command": "{workspace}\\gradlew.bat",
+        "args": [
+          ":app:assembleDebug",
+          "--no-daemon"
+        ],
+        "timeoutMs": 1200000,
+        "expectedExitCodes": [
+          0
+        ]
+      }
+    ]
+  },
+  "baseline": {
+    "workingTreeClean": true,
+    "qualityCommands": [
+      ":app:testDebugUnitTest (available after scaffold PR)",
+      ":app:lintDebug (available after scaffold PR)",
+      ":app:assembleDebug (available after scaffold PR)",
+      "laya/acceptance/verify-schedule.ps1 (final/package acceptance)",
+      "laya/acceptance/verify-apk.ps1 (final/package acceptance)"
+    ],
+    "knownGood": {
+      "gitHead": "GitHub connector observed main at e84a81508a1bab57d421d7881e32022c5b0398d5 before package export.",
+      "workingTree": "User explicitly confirmed the local C:\\dev\\GERMAN-FATHER working tree was clean before package export.",
+      "materials": "GitHub connector observed AUDIOS/1.mp3, 2.mp3, 3.mp3 and nine VISUAL PNGs including IRSE.png and DORMIR.png.",
+      "androidBuild": "NOT_TESTED: baseline contains no Android scaffold, Gradle wrapper or APK."
+    }
+  },
+  "globalInvariants": [
+    "Android 15 only: minSdk 35 and targetSdk 35; sideloaded APK, no Play Store work.",
+    "app/src/main/assets/schedule.json is the only production source of timetable/task definitions. No weekday/time/task literals may be duplicated in Kotlin for production behavior.",
+    "Repository-root AUDIOS/ and VISUAL/ are authoritative user materials and must not be renamed, edited or replaced by agents.",
+    "Weekends contain no alarms. Missed alarms are skipped permanently and never replayed after boot/app restart.",
+    "Only the next future alert is scheduled; each delivered alert fires once.",
+    "Audio rotation is persistent deterministic round-robin 1.mp3→2.mp3→3.mp3→1.mp3 and advances only when real playback starts.",
+    "Alarm playback uses Android alarm audio usage/system alarm volume. The app must never raise, lock or override the user's system volume.",
+    "Alarm UI has no in-app dismiss/snooze action and closes automatically when audio completes; OS-level controls remain under Android/user control.",
+    "Full-screen intent is used only for actual alarm delivery. Normal app UI is schedule/current/next plus setup-required actions when capabilities are missing.",
+    "12:00 uses IRSE.png for the alert while the normal display state becomes ESCUELA.",
+    "No network, account, analytics, cloud, remote configuration, schedule editor or background polling is in scope.",
+    "All task agents must leave laya/** untouched; the package/oracles are external acceptance material."
+  ],
+  "tracks": {
+    "TRACK_A": {
+      "label": "Android product implementation",
+      "items": [
+        {
+          "pr": 1,
+          "taskId": "android-scaffold",
+          "mergePolicy": "auto_after_green",
+          "title": "Scaffold Android 15 application",
+          "objective": "Create the buildable Android 15-only GERMAN FATHER app skeleton and deterministic Gradle/test baseline without moving or renaming the existing AUDIOS/ and VISUAL/ source materials.",
+          "dependsOn": [],
+          "dependsOnTasks": [],
+          "lockedPaths": [
+            "settings.gradle.kts",
+            "build.gradle.kts",
+            "gradle.properties",
+            "gradle/**",
+            "gradlew",
+            "gradlew.bat",
+            "app/**",
+            ".gitignore",
+            "README.md"
+          ],
+          "acceptance": [
+            "Repository contains a single Android application module that builds with minSdk 35 and targetSdk 35; compileSdk is at least 35.",
+            "Application id and namespace are com.pixatrip1984.germanfather.",
+            "A Gradle wrapper and pinned compatible Android/Kotlin toolchain are committed; the project builds using JDK 17.",
+            "Existing root AUDIOS/ and VISUAL/ files are preserved byte-for-byte and are not renamed or duplicated as hand-maintained copies.",
+            "A baseline JVM unit test runs through :app:testDebugUnitTest and a debug APK can be assembled."
+          ],
+          "validation": [
+            "Run the authoritative Gradle unit-test, lint, and debug-APK gates.",
+            "Inspect the Android configuration for API 35 minimum/target and the expected application id."
+          ],
+          "taskPrompt": "Build the initial Android project for GERMAN FATHER. This is an Android 15-only sideloaded alarm application; do not implement the alarm behavior yet. Use Kotlin and Jetpack Compose with a stable pinned Android Gradle Plugin/Gradle/Kotlin toolchain compatible with JDK 17 and API 35. Create one app module with namespace/applicationId com.pixatrip1984.germanfather, minSdk 35, targetSdk 35, and compileSdk >=35. Commit the Gradle wrapper. Keep the existing root AUDIOS/ and VISUAL/ directories unchanged: they are authoritative user-supplied media and later tasks will package them as assets. Create a minimal MainActivity/Compose shell only as needed to build. Establish test dependencies and at least one trivial JVM unit test so :app:testDebugUnitTest is a real gate. Do not add schedule logic, alarm scheduling, playback, permission flows, or a schedule editor in this task. Produce a deterministic build and document any toolchain assumption in README.md.",
+          "expectedBranch": "laya/german-father-android-v1-scaffold",
+          "integrationCommands": [
+            {
+              "command": "{workspace}\\gradlew.bat",
+              "args": [
+                ":app:testDebugUnitTest",
+                "--no-daemon"
+              ],
+              "timeoutMs": 1200000,
+              "expectedExitCodes": [
+                0
+              ]
+            },
+            {
+              "command": "{workspace}\\gradlew.bat",
+              "args": [
+                ":app:assembleDebug",
+                "--no-daemon"
+              ],
+              "timeoutMs": 1200000,
+              "expectedExitCodes": [
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "pr": 2,
+          "taskId": "schedule-engine",
+          "mergePolicy": "auto_after_green",
+          "title": "Add declarative schedule engine",
+          "objective": "Make one schedule.json the only timetable/task definition and implement pure current/next/next-alert computation with the exact approved weekday schedule.",
+          "dependsOn": [
+            1
+          ],
+          "dependsOnTasks": [
+            {
+              "taskId": "android-scaffold",
+              "requirement": "merged"
+            }
+          ],
+          "lockedPaths": [
+            "app/build.gradle.kts",
+            "app/src/main/assets/**",
+            "app/src/main/java/com/pixatrip1984/germanfather/schedule/**",
+            "app/src/test/java/com/pixatrip1984/germanfather/schedule/**"
+          ],
+          "acceptance": [
+            "app/src/main/assets/schedule.json matches the approved V1 schedule exactly and contains the persistent audio rotation order 1.mp3, 2.mp3, 3.mp3.",
+            "Monday/Wednesday/Friday and Tuesday/Thursday differ only where approved; Saturday and Sunday have no timeline events and no alerts.",
+            "At 12:00 the display timeline becomes ESCUELA while the alert at the same time is IRSE using IRSE.png.",
+            "The schedule parser validates duplicate times, malformed times, unknown days, missing task ids, missing visual references for alerts, and missing audio files.",
+            "Schedule calculations use the device local time zone, skip every alert whose scheduled wall-clock time is already in the past, and calculate the next future alert across day/week boundaries.",
+            "Changing timetable/task data does not require changing Kotlin code: production timetable literals do not exist outside schedule.json.",
+            "Root AUDIOS/ and VISUAL/ are packaged into the APK as Android assets without creating second hand-maintained copies."
+          ],
+          "validation": [
+            "Run ScheduleRepositoryTest and ScheduleEngineTest with fixed clocks and week-boundary cases.",
+            "Run the external package schedule oracle against app/src/main/assets/schedule.json.",
+            "Build the APK so asset packaging is exercised."
+          ],
+          "taskPrompt": "Implement the data boundary for the product. app/src/main/assets/schedule.json must be the single editable source of truth for timetable/task data. Use the exact approved schedule from the package oracle laya/acceptance/expected-schedule.json; do not invent extra alarms or weekend behavior. Model display timeline separately from alert triggers inside the same JSON so 12:00 can display ESCUELA while firing IRSE.png. Package the existing repository-root AUDIOS/ and VISUAL/ directories as Android assets using Gradle source-set configuration or an equivalent single-source approach; do not create manually maintained duplicate copies. Implement typed parsing/validation and a pure ScheduleEngine that, given Clock/ZoneId, returns current display state, next display state and next future alert. Device local wall-clock time is authoritative. Before the first weekday event and on weekends, current state is SIN_HORARIO; next may cross to the next weekday. Past alerts are always skipped and never consumed retroactively. Add focused JVM tests for all weekdays, weekend rollover, before/after boundaries, exact timestamp boundaries, malformed JSON, and missing referenced media. Keep all actual timetable values in schedule.json, not Kotlin.",
+          "expectedBranch": "laya/german-father-android-v1-schedule-engine",
+          "integrationCommands": [
+            {
+              "command": "{workspace}\\gradlew.bat",
+              "args": [
+                ":app:testDebugUnitTest",
+                "--tests",
+                "com.pixatrip1984.germanfather.schedule.ScheduleRepositoryTest",
+                "--no-daemon"
+              ],
+              "timeoutMs": 1200000,
+              "expectedExitCodes": [
+                0
+              ]
+            },
+            {
+              "command": "{workspace}\\gradlew.bat",
+              "args": [
+                ":app:testDebugUnitTest",
+                "--tests",
+                "com.pixatrip1984.germanfather.schedule.ScheduleEngineTest",
+                "--no-daemon"
+              ],
+              "timeoutMs": 1200000,
+              "expectedExitCodes": [
+                0
+              ]
+            },
+            {
+              "command": "powershell.exe",
+              "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "{package}\\acceptance\\verify-schedule.ps1",
+                "-Workspace",
+                "{workspace}"
+              ],
+              "timeoutMs": 120000,
+              "expectedExitCodes": [
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "pr": 3,
+          "taskId": "exact-alarm-scheduler",
+          "mergePolicy": "auto_after_green",
+          "title": "Schedule resilient exact alarms",
+          "objective": "Schedule exactly one next future AlarmClock alarm, rehydrate it after reboot/time changes, and never replay missed tasks.",
+          "dependsOn": [
+            2
+          ],
+          "dependsOnTasks": [
+            {
+              "taskId": "schedule-engine",
+              "requirement": "merged"
+            }
+          ],
+          "lockedPaths": [
+            "app/src/main/AndroidManifest.xml",
+            "app/src/main/java/com/pixatrip1984/germanfather/alarm/**",
+            "app/src/test/java/com/pixatrip1984/germanfather/alarm/**"
+          ],
+          "acceptance": [
+            "AlarmManager.setAlarmClock is used for the one next future user-visible alert; repeating alarms and WorkManager are not used for timetable firing.",
+            "The app declares the Android permissions/components required for an alarm-clock app on API 35, including USE_EXACT_ALARM and RECEIVE_BOOT_COMPLETED.",
+            "Scheduling is recomputed after BOOT_COMPLETED, MY_PACKAGE_REPLACED, TIME_SET and TIMEZONE_CHANGED and on app activation.",
+            "Recomputation always uses ScheduleEngine and schedules only future events; elapsed/missed events are not fired and do not advance audio rotation.",
+            "PendingIntent identity is deterministic per alert occurrence and stale deliveries are rejected by occurrence id/timestamp validation.",
+            "The scheduler exposes an armed/not-armed status rather than silently claiming success when exact alarm capability is unavailable."
+          ],
+          "validation": [
+            "Use a backend abstraction and JVM tests to prove next-only scheduling, cancellation/replacement, missed-event skipping and reschedule triggers.",
+            "Run the complete unit-test/lint/build gate."
+          ],
+          "taskPrompt": "Implement exact scheduling using the real Android alarm-clock mechanism. The production backend must use AlarmManager.setAlarmClock with a broadcast PendingIntent to the app, and the coordinator must keep only the next future alert scheduled. The schedule engine remains the sole source for what comes next. Declare USE_EXACT_ALARM because exact alarms are core alarm-clock functionality, RECEIVE_BOOT_COMPLETED, and any normal manifest requirements. Implement receivers for BOOT_COMPLETED plus sensible wall-clock/package changes (TIME_SET, TIMEZONE_CHANGED, MY_PACKAGE_REPLACED), all delegating to the same reschedule coordinator. Never catch up missed tasks after reboot or app inactivity. Protect against stale broadcasts by embedding a stable occurrence id and intended epoch timestamp and verifying it before delivery. Persist only scheduler metadata needed to cancel/validate the current occurrence; do not persist a second copy of the timetable. Add pure abstractions/fakes so JVM tests can assert which epoch would be passed to AlarmManager without relying on framework timing. Do not implement audio or full-screen UI yet.",
+          "expectedBranch": "laya/german-father-android-v1-exact-alarm-scheduler",
+          "integrationCommands": [
+            {
+              "command": "{workspace}\\gradlew.bat",
+              "args": [
+                ":app:testDebugUnitTest",
+                "--tests",
+                "com.pixatrip1984.germanfather.alarm.AlarmCoordinatorTest",
+                "--no-daemon"
+              ],
+              "timeoutMs": 1200000,
+              "expectedExitCodes": [
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "pr": 4,
+          "taskId": "alarm-experience",
+          "mergePolicy": "auto_after_green",
+          "title": "Add full-screen alarm playback",
+          "objective": "Turn a due alert into the intrusive lock-screen image plus one full MP3 playback, with persistent 1→2→3 rotation and automatic shutdown.",
+          "dependsOn": [
+            3
+          ],
+          "dependsOnTasks": [
+            {
+              "taskId": "exact-alarm-scheduler",
+              "requirement": "merged"
+            }
+          ],
+          "lockedPaths": [
+            "app/src/main/AndroidManifest.xml",
+            "app/src/main/java/com/pixatrip1984/germanfather/alarm/**",
+            "app/src/main/java/com/pixatrip1984/germanfather/media/**",
+            "app/src/main/java/com/pixatrip1984/germanfather/ui/alarm/**",
+            "app/src/test/java/com/pixatrip1984/germanfather/media/**",
+            "app/src/test/java/com/pixatrip1984/germanfather/alarm/**"
+          ],
+          "acceptance": [
+            "A due alarm starts audio independently of whether the full-screen activity is actually presented, using AudioAttributes.USAGE_ALARM and the system alarm volume; the app never raises or overrides the user's alarm volume.",
+            "A high-importance CATEGORY_ALARM notification carries a fullScreenIntent and the manifest declares USE_FULL_SCREEN_INTENT plus required foreground-service permissions for API 35.",
+            "The alarm activity uses the scheduled alert's visual asset, can show over the lock screen and turn the screen on, has no in-app dismiss/snooze control, and finishes automatically when playback ends.",
+            "Exactly one MP3 is played per delivered alert, from start to natural completion unless the OS/user externally interrupts it.",
+            "Audio choice is persistent deterministic round-robin 1.mp3→2.mp3→3.mp3→1.mp3 across process death/reboot; skipped/missed alerts do not advance it.",
+            "After playback completion or a handled playback failure, the foreground service/notification/activity are cleaned up and the coordinator schedules the next future alert."
+          ],
+          "validation": [
+            "JVM tests cover round-robin persistence semantics and completion/error cleanup coordination.",
+            "Static/lint/build validation verifies the Android 15 manifest and components compile."
+          ],
+          "taskPrompt": "Implement the real alarm experience. AlarmReceiver should hand off promptly to a foreground media-playback service that posts a high-importance CATEGORY_ALARM notification with a full-screen PendingIntent. Use the supplied MP3 assets through MediaPlayer (or another Android-native player) configured with AudioAttributes.USAGE_ALARM so playback follows the device's alarm stream. Do not programmatically change STREAM_ALARM volume and do not bypass user/system volume control. The full-screen AlarmActivity must call the supported APIs/flags to show when locked, turn the screen on, remain visible during playback, render only the scheduled image edge-to-edge, and expose no dismiss or snooze button. The service owns playback lifetime so audio still starts if Android chooses heads-up instead of launching the activity. Persist a single audio-rotation index in app private storage; advance only when a real alert successfully starts playback. On completion, stop service/notification and finish the alarm activity through an internal signal, then schedule the next future occurrence. On playback/resource failure, record/log a concrete failure, clean up, do not loop indefinitely, and continue scheduling future alerts. Use USE_FULL_SCREEN_INTENT and API-35 foreground-service permissions/types correctly. Keep visual/audio file names data-driven from schedule.json/audioRotation, not task-specific Kotlin branches.",
+          "expectedBranch": "laya/german-father-android-v1-alarm-experience",
+          "integrationCommands": [
+            {
+              "command": "{workspace}\\gradlew.bat",
+              "args": [
+                ":app:testDebugUnitTest",
+                "--tests",
+                "com.pixatrip1984.germanfather.media.AudioRotationStoreTest",
+                "--no-daemon"
+              ],
+              "timeoutMs": 1200000,
+              "expectedExitCodes": [
+                0
+              ]
+            },
+            {
+              "command": "{workspace}\\gradlew.bat",
+              "args": [
+                ":app:assembleDebug",
+                "--no-daemon"
+              ],
+              "timeoutMs": 1200000,
+              "expectedExitCodes": [
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "pr": 5,
+          "taskId": "main-ui-permissions",
+          "mergePolicy": "auto_after_green",
+          "title": "Build schedule status screen",
+          "objective": "Provide the minimal normal app screen: today's schedule, current task, next task, and only the setup actions required when alarm capabilities are missing.",
+          "dependsOn": [
+            4
+          ],
+          "dependsOnTasks": [
+            {
+              "taskId": "alarm-experience",
+              "requirement": "merged"
+            }
+          ],
+          "lockedPaths": [
+            "app/src/main/java/com/pixatrip1984/germanfather/MainActivity.kt",
+            "app/src/main/java/com/pixatrip1984/germanfather/ui/main/**",
+            "app/src/main/java/com/pixatrip1984/germanfather/permissions/**",
+            "app/src/test/java/com/pixatrip1984/germanfather/ui/**",
+            "app/src/main/AndroidManifest.xml"
+          ],
+          "acceptance": [
+            "The ordinary screen displays GERMAN FATHER, today's schedule, current display state and next display state from ScheduleEngine.",
+            "There is no schedule/task editor and no hidden second source of schedule values.",
+            "Saturday/Sunday clearly show no schedule while still identifying Monday's next task when applicable.",
+            "On API 35 the app requests POST_NOTIFICATIONS when needed, checks NotificationManager.canUseFullScreenIntent(), and offers a direct system-settings action when full-screen intent access is missing.",
+            "The app checks exact-alarm capability before claiming it is armed; missing capabilities are shown as setup-required state with only the relevant setup action.",
+            "When capabilities become available on resume, the app reschedules the next future alert."
+          ],
+          "validation": [
+            "Compose/view-model JVM tests verify current/next/weekend presentation from fake clocks and permission-state mapping.",
+            "Run lint/build to catch notification/full-screen API misuse."
+          ],
+          "taskPrompt": "Implement the minimal normal UI. It is not an editor. Show the product name, today's timeline, the current task and the next task, entirely from ScheduleEngine. On weekends show SIN_HORARIO/no alarms and still compute the next weekday task. Permission/setup UI is allowed only when required to make the alarm behavior work: POST_NOTIFICATIONS runtime permission, full-screen-intent capability via NotificationManager.canUseFullScreenIntent() with ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT when missing, and exact-alarm capability status. Because USE_EXACT_ALARM is declared for this alarm-clock app, do not invent a redundant custom permission flow; simply surface a failure if canScheduleExactAlarms() is false. On resume after settings changes, re-evaluate capabilities and reschedule through the existing coordinator. Keep the screen visually simple and do not add task editing, snooze, dismiss, analytics, login, network features, or cloud storage.",
+          "expectedBranch": "laya/german-father-android-v1-main-ui-permissions",
+          "integrationCommands": [
+            {
+              "command": "{workspace}\\gradlew.bat",
+              "args": [
+                ":app:testDebugUnitTest",
+                "--no-daemon"
+              ],
+              "timeoutMs": 1200000,
+              "expectedExitCodes": [
+                0
+              ]
+            },
+            {
+              "command": "{workspace}\\gradlew.bat",
+              "args": [
+                ":app:lintDebug",
+                "--no-daemon"
+              ],
+              "timeoutMs": 1200000,
+              "expectedExitCodes": [
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "pr": 6,
+          "taskId": "device-acceptance-harness",
+          "mergePolicy": "auto_after_green",
+          "title": "Add physical-device acceptance harness",
+          "objective": "Add a debug-only path that schedules one production-pipeline alarm shortly in the future, then harden docs/tests so the real Android 15 lock-screen path can be validated.",
+          "dependsOn": [
+            5
+          ],
+          "dependsOnTasks": [
+            {
+              "taskId": "main-ui-permissions",
+              "requirement": "merged"
+            }
+          ],
+          "lockedPaths": [
+            "app/src/debug/**",
+            "app/src/test/**",
+            "README.md",
+            "app/build.gradle.kts",
+            "app/src/main/**"
+          ],
+          "acceptance": [
+            "A debug-only exported TestAlarmHarnessActivity can be launched explicitly with delaySeconds and schedules one GIMNASIO visual alarm through the same production AlarmManager→receiver→service→notification→AlarmActivity pipeline.",
+            "The debug harness is absent from release variants and does not add any normal-screen button or production backdoor.",
+            "README documents JDK/SDK prerequisites, debug APK build/install, required Android 15 settings, how to run the debug harness, and how to inspect/retest after reboot.",
+            "The full authoritative gate and package acceptance scripts pass and app-debug.apk exists."
+          ],
+          "validation": [
+            "Build debug and release-compatible variants as applicable and prove the debug component is variant-scoped.",
+            "Run all unit tests, lint, assembleDebug, schedule oracle and APK asset verifier."
+          ],
+          "taskPrompt": "Create a physical-device acceptance seam without changing the production UX. In src/debug only, add an exported TestAlarmHarnessActivity callable explicitly by adb with an integer delaySeconds extra (default 60). It must schedule exactly one test occurrence using the existing production scheduler/delivery/playback stack and GIMNASIO.png; it must not invoke AlarmActivity directly or bypass the full-screen notification path. The harness immediately finishes after scheduling. Ensure it is not present in release/main manifests. Update README with concise Windows commands for building app-debug.apk, installing it with adb, granting/checking notification/full-screen alarm access, launching the debug harness, locking the phone before fire time, and verifying reboot rescheduling of the normal next alarm. Run/extend tests for integration contracts and keep all LAYA package files outside agent write scope. Do not add production UI controls for testing.",
+          "expectedBranch": "laya/german-father-android-v1-device-acceptance-harness",
+          "integrationCommands": [
+            {
+              "command": "{workspace}\\gradlew.bat",
+              "args": [
+                ":app:testDebugUnitTest",
+                "--no-daemon"
+              ],
+              "timeoutMs": 1200000,
+              "expectedExitCodes": [
+                0
+              ]
+            },
+            {
+              "command": "{workspace}\\gradlew.bat",
+              "args": [
+                ":app:lintDebug",
+                "--no-daemon"
+              ],
+              "timeoutMs": 1200000,
+              "expectedExitCodes": [
+                0
+              ]
+            },
+            {
+              "command": "{workspace}\\gradlew.bat",
+              "args": [
+                ":app:assembleDebug",
+                "--no-daemon"
+              ],
+              "timeoutMs": 1200000,
+              "expectedExitCodes": [
+                0
+              ]
+            },
+            {
+              "command": "powershell.exe",
+              "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "{package}\\acceptance\\verify-schedule.ps1",
+                "-Workspace",
+                "{workspace}"
+              ],
+              "timeoutMs": 120000,
+              "expectedExitCodes": [
+                0
+              ]
+            },
+            {
+              "command": "powershell.exe",
+              "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "{package}\\acceptance\\verify-apk.ps1",
+                "-Workspace",
+                "{workspace}"
+              ],
+              "timeoutMs": 120000,
+              "expectedExitCodes": [
+                0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "TRACK_B": {
+      "label": "Reserved",
+      "items": []
+    },
+    "TRACK_C": {
+      "label": "Reserved",
+      "items": []
+    }
+  },
+  "crossTrackDependencies": [],
+  "finalAcceptance": [
+    "A debug APK builds from a clean checkout with the declared authoritative gates and can be installed on an Android 15 device.",
+    "The normal screen shows the exact schedule for the current weekday plus current and next state; it has no schedule editor.",
+    "Monday/Wednesday/Friday alerts occur at 07:00 CORRAL, 07:25 TRASTES, 08:00 PERSONAL, 08:30 GIMNASIO, 10:00 DUCHA, 10:20 TAREA, 11:20 COMER, 12:00 IRSE, 20:00 COMER, 20:40 TAREA and 23:10 DORMIR.",
+    "Tuesday/Thursday alerts occur at 07:00 CORRAL, 07:25 TRASTES, 08:00 GIMNASIO, 10:00 DUCHA, 10:20 TAREA, 11:20 COMER, 12:00 IRSE, 20:00 COMER, 20:40 TAREA and 23:10 DORMIR.",
+    "Saturday and Sunday have no alert occurrences.",
+    "At 12:00 on weekdays, IRSE is shown during the alarm while the normal timetable state is ESCUELA until 20:00.",
+    "On a locked Android 15 device with required user permissions enabled, a due alarm wakes/presents the full-screen task image and plays one MP3 through alarm audio usage; it auto-closes at natural audio completion with no in-app dismiss/snooze.",
+    "Three consecutive delivered test alarms use 1.mp3, 2.mp3 and 3.mp3 respectively, and the fourth returns to 1.mp3 even across app process death/restart.",
+    "If the phone is powered off across an alert time, that alert is not replayed after boot; the next future timetable alert is scheduled instead.",
+    "After reboot before a future alert, the app reconstructs the future alarm without requiring the UI to remain open.",
+    "Changing only schedule.json can change timetable days/times/tasks without Kotlin edits; parser/tests reject invalid references or malformed schedule data."
+  ],
+  "validationPlan": {
+    "schemaVersion": 1,
+    "environment": "commands",
+    "setup": [],
+    "materials": [
+      {
+        "id": "audio-1",
+        "path": "AUDIOS/1.mp3",
+        "root": "repo"
+      },
+      {
+        "id": "audio-2",
+        "path": "AUDIOS/2.mp3",
+        "root": "repo"
+      },
+      {
+        "id": "audio-3",
+        "path": "AUDIOS/3.mp3",
+        "root": "repo"
+      },
+      {
+        "id": "visual-comer",
+        "path": "VISUAL/COMER.png",
+        "root": "repo"
+      },
+      {
+        "id": "visual-corral",
+        "path": "VISUAL/CORRAL.png",
+        "root": "repo"
+      },
+      {
+        "id": "visual-dormir",
+        "path": "VISUAL/DORMIR.png",
+        "root": "repo"
+      },
+      {
+        "id": "visual-ducha",
+        "path": "VISUAL/DUCHA.png",
+        "root": "repo"
+      },
+      {
+        "id": "visual-gimnasio",
+        "path": "VISUAL/GIMNASIO.png",
+        "root": "repo"
+      },
+      {
+        "id": "visual-irse",
+        "path": "VISUAL/IRSE.png",
+        "root": "repo"
+      },
+      {
+        "id": "visual-personal",
+        "path": "VISUAL/PERSONAL.png",
+        "root": "repo"
+      },
+      {
+        "id": "visual-tarea",
+        "path": "VISUAL/TAREA.png",
+        "root": "repo"
+      },
+      {
+        "id": "visual-trastes",
+        "path": "VISUAL/TRASTES.png",
+        "root": "repo"
+      },
+      {
+        "id": "expected-schedule",
+        "path": "acceptance/expected-schedule.json",
+        "root": "package"
+      }
+    ],
+    "artifacts": [
+      {
+        "id": "debug-apk",
+        "path": "app/build/outputs/apk/debug/app-debug.apk"
+      }
+    ],
+    "checks": [
+      {
+        "id": "schedule-oracle",
+        "name": "Approved schedule and media references",
+        "mode": "automatic",
+        "reason": "The approved timetable is deterministic and can be compared structurally against a package-owned oracle while checking all referenced user media.",
+        "ownerTaskId": "schedule-engine",
+        "commands": [
+          {
+            "command": "powershell.exe",
+            "args": [
+              "-NoProfile",
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              "{package}\\acceptance\\verify-schedule.ps1",
+              "-Workspace",
+              "{workspace}"
+            ],
+            "timeoutMs": 120000,
+            "expectedExitCodes": [
+              0
+            ]
+          }
+        ],
+        "instructions": [],
+        "expected": [
+          "Production schedule.json is structurally equal to acceptance/expected-schedule.json.",
+          "Saturday/Sunday are empty, all required alert visuals exist in VISUAL/, and audio rotation references the three existing MP3 files."
+        ],
+        "failurePatterns": [
+          "SCHEDULE_VERIFY_FAILED"
+        ]
+      },
+      {
+        "id": "android-quality-gate",
+        "name": "Android unit tests, lint and APK build",
+        "mode": "automatic",
+        "reason": "Gradle provides reproducible machine-checkable unit, lint and build results after the scaffold exists.",
+        "ownerTaskId": "device-acceptance-harness",
+        "commands": [
+          {
+            "command": "{workspace}\\gradlew.bat",
+            "args": [
+              ":app:testDebugUnitTest",
+              "--no-daemon"
+            ],
+            "timeoutMs": 1200000,
+            "expectedExitCodes": [
+              0
+            ]
+          },
+          {
+            "command": "{workspace}\\gradlew.bat",
+            "args": [
+              ":app:lintDebug",
+              "--no-daemon"
+            ],
+            "timeoutMs": 1200000,
+            "expectedExitCodes": [
+              0
+            ]
+          },
+          {
+            "command": "{workspace}\\gradlew.bat",
+            "args": [
+              ":app:assembleDebug",
+              "--no-daemon"
+            ],
+            "timeoutMs": 1200000,
+            "expectedExitCodes": [
+              0
+            ]
+          }
+        ],
+        "instructions": [],
+        "expected": [
+          "All JVM unit tests pass.",
+          "Android lintDebug passes.",
+          "app-debug.apk builds successfully."
+        ],
+        "failurePatterns": [
+          "FAILURE: Build failed",
+          "There were failing tests"
+        ]
+      },
+      {
+        "id": "apk-assets",
+        "name": "Packaged APK contains schedule and supplied media",
+        "mode": "automatic",
+        "reason": "The built APK is a ZIP archive whose packaged asset entries can be independently inspected.",
+        "ownerTaskId": "device-acceptance-harness",
+        "commands": [
+          {
+            "command": "powershell.exe",
+            "args": [
+              "-NoProfile",
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              "{package}\\acceptance\\verify-apk.ps1",
+              "-Workspace",
+              "{workspace}"
+            ],
+            "timeoutMs": 120000,
+            "expectedExitCodes": [
+              0
+            ]
+          }
+        ],
+        "instructions": [],
+        "expected": [
+          "app-debug.apk exists and contains assets/schedule.json, assets/1.mp3, assets/2.mp3, assets/3.mp3 and all nine supplied PNGs."
+        ],
+        "failurePatterns": [
+          "APK_VERIFY_FAILED"
+        ]
+      },
+      {
+        "id": "locked-screen-alarm",
+        "name": "Physical Android 15 full-screen alarm",
+        "mode": "human",
+        "reason": "Whether an Android 15 device wakes, presents over the actual lock screen, plays through the physical speaker at the user's alarm volume and auto-closes requires a real device and user-granted system permissions.",
+        "ownerTaskId": "device-acceptance-harness",
+        "commands": [],
+        "instructions": [
+          "Use the built {artifact:debug-apk} on the target Android 15 phone.",
+          "Install/update the APK and launch GERMAN FATHER once.",
+          "Grant notification permission and, if the app reports it missing, enable full-screen alarm access in the Android system page opened by the app. Set the phone's Alarm volume to the desired high level; the app must not change it itself.",
+          "With adb available, run: adb shell am start -n com.pixatrip1984.germanfather/.debug.TestAlarmHarnessActivity --ei delaySeconds 60",
+          "Immediately lock the phone and leave the app/background untouched for at least 75 seconds.",
+          "Confirm the screen wakes/presents the GIMNASIO image over the lock screen, exactly one supplied MP3 plays, there is no in-app dismiss/snooze button, and the alarm UI/service disappears when the MP3 completes.",
+          "Repeat the debug harness three more times and confirm the audible order advances deterministically through 1.mp3, 2.mp3, 3.mp3, then 1.mp3. If the starting persisted index is not 1 because earlier tests already fired, first clear app data, relaunch, restore required permissions, and then perform this four-alarm sequence.",
+          "Send :aprobar only if all observations match; otherwise send feedback naming the mismatch."
+        ],
+        "expected": [
+          "Real lock-screen presentation and audio behavior match the product contract.",
+          "Round-robin playback is persistent and deterministic.",
+          "No normal UI control can dismiss or snooze the alarm."
+        ],
+        "failurePatterns": []
+      },
+      {
+        "id": "reboot-missed-policy",
+        "name": "Reboot restoration and missed-alert policy",
+        "mode": "human",
+        "reason": "Power-off/reboot timing and Android boot delivery on the target device cannot be faithfully established by JVM tests alone.",
+        "ownerTaskId": "exact-alarm-scheduler",
+        "commands": [],
+        "instructions": [
+          "Choose a weekday test window where one production alert can be intentionally missed and a later production alert remains in the future; if that is impractical, use a temporary device clock adjustment only for this human test and restore automatic time afterward.",
+          "Launch GERMAN FATHER while required permissions are enabled so a future alarm is armed, then power the phone off before the chosen alert time.",
+          "Keep the phone off until after that alert time, then boot and unlock the phone.",
+          "Confirm the missed alert does not play after boot.",
+          "Keep the phone running until the next still-future scheduled alert and confirm that later alert fires normally, demonstrating boot-time reconstruction of the next future occurrence.",
+          "Send :aprobar only if the missed alert stays skipped and the later future alert is restored."
+        ],
+        "expected": [
+          "No catch-up alarm is emitted for an occurrence that elapsed while the phone was off.",
+          "The next future production alarm is restored after boot."
+        ],
+        "failurePatterns": []
+      }
+    ],
+    "feedbackScope": [
+      "app/**",
+      "settings.gradle.kts",
+      "build.gradle.kts",
+      "gradle.properties",
+      "gradle/**",
+      "gradlew",
+      "gradlew.bat",
+      "README.md"
+    ],
+    "maxCorrections": 8
+  }
+}
