@@ -23,7 +23,8 @@ class ScheduleParserTest {
 
     @Test
     fun rejectsMalformedTime() {
-        val broken = ScheduleTestFixtures.productionJson().replaceFirst(""07:00"", ""7:00"")
+        val broken = ScheduleTestFixtures.productionJson()
+            .replaceFirst("\"07:00\"", "\"7:00\"")
         assertThrows(ScheduleValidationException::class.java) {
             ScheduleParser.parse(broken, ScheduleTestFixtures.assetNames)
         }
@@ -31,7 +32,8 @@ class ScheduleParserTest {
 
     @Test
     fun rejectsDuplicateTimelineTime() {
-        val broken = ScheduleTestFixtures.productionJson().replaceFirst(""07:25"", ""07:00"")
+        val broken = ScheduleTestFixtures.productionJson()
+            .replaceFirst("\"07:25\"", "\"07:00\"")
         assertThrows(ScheduleValidationException::class.java) {
             ScheduleParser.parse(broken, ScheduleTestFixtures.assetNames)
         }
@@ -50,7 +52,8 @@ class ScheduleParserTest {
 
     @Test
     fun rejectsUnknownDay() {
-        val broken = ScheduleTestFixtures.productionJson().replaceFirst(""MONDAY"", ""FUNDAY"")
+        val broken = ScheduleTestFixtures.productionJson()
+            .replaceFirst("\"MONDAY\"", "\"FUNDAY\"")
         assertThrows(ScheduleValidationException::class.java) {
             ScheduleParser.parse(broken, ScheduleTestFixtures.assetNames)
         }
@@ -59,7 +62,7 @@ class ScheduleParserTest {
     @Test
     fun rejectsMissingTaskReference() {
         val broken = ScheduleTestFixtures.productionJson()
-            .replaceFirst(""taskId": "CORRAL"", ""taskId": "UNKNOWN"")
+            .replaceFirst("\"taskId\": \"CORRAL\"", "\"taskId\": \"UNKNOWN\"")
         assertThrows(ScheduleValidationException::class.java) {
             ScheduleParser.parse(broken, ScheduleTestFixtures.assetNames)
         }
