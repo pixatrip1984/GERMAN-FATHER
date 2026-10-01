@@ -38,6 +38,17 @@ class ScheduleParserTest {
     }
 
     @Test
+    fun rejectsDuplicateAlertTime() {
+        val original = ScheduleTestFixtures.productionJson()
+        val firstAlerts = original.indexOf("\"alerts\"")
+        val broken = original.substring(0, firstAlerts) +
+            original.substring(firstAlerts).replaceFirst("\"07:25\"", "\"07:00\"")
+        assertThrows(ScheduleValidationException::class.java) {
+            ScheduleParser.parse(broken, ScheduleTestFixtures.assetNames)
+        }
+    }
+
+    @Test
     fun rejectsUnknownDay() {
         val broken = ScheduleTestFixtures.productionJson().replaceFirst(""MONDAY"", ""FUNDAY"")
         assertThrows(ScheduleValidationException::class.java) {
