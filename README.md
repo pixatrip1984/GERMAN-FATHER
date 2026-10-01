@@ -6,8 +6,8 @@ Initial Android scaffold for the Android 15-only sideloaded GERMAN FATHER applic
 
 - JDK 17
 - Android SDK Platform 35
-- Android Gradle Plugin 8.9.3
-- Gradle 8.11.1 (committed wrapper)
+- Android Gradle Plugin 8.7.3
+- Gradle 8.9 (committed wrapper)
 - Kotlin 2.0.21
 - Jetpack Compose
 
