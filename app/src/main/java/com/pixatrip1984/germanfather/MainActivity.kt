@@ -1,10 +1,13 @@
 package com.pixatrip1984.germanfather
 
 import android.Manifest
+import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,6 +23,7 @@ import com.pixatrip1984.germanfather.ui.main.MainScreen
 import com.pixatrip1984.germanfather.ui.main.MainScreenState
 import com.pixatrip1984.germanfather.ui.main.MainScreenStateFactory
 import java.time.Clock
+import java.time.Duration
 import java.time.ZoneId
 
 class MainActivity : ComponentActivity() {
@@ -49,6 +53,8 @@ class MainActivity : ComponentActivity() {
                         )
                     },
                     onOpenFullScreenSettings = ::openFullScreenIntentSettings,
+                    showDebugTestButton = isDebuggable(),
+                    onTestNextAlarm = ::testNextAlarm,
                 )
             }
         }
@@ -82,6 +88,39 @@ class MainActivity : ComponentActivity() {
         )
     }
 
+    private fun testNextAlarm() {
+        if (!isDebuggable()) return
+
+        val zoneId = ZoneId.systemDefault()
+        val baseClock = Clock.system(zoneId)
+        val schedule = AndroidScheduleLoader.load(assets)
+        val nextAlert = ScheduleEngine(
+            schedule = schedule,
+            clock = Clock.offset(baseClock, Duration.ofMillis(1)),
+            zoneId = zoneId,
+        ).nextFutureAlert()
+
+        if (nextAlert == null) {
+            Log.e(TAG, "No future alert available for debug preview")
+            return
+        }
+
+        startActivity(
+            Intent().apply {
+                component = ComponentName(
+                    this@MainActivity,
+                    packageName + ".debug.TestAlarmHarnessActivity",
+                )
+                putExtra(EXTRA_DELAY_SECONDS, DEBUG_PREVIEW_DELAY_SECONDS)
+                putExtra(EXTRA_TASK_ID, nextAlert.taskId)
+                putExtra(EXTRA_VISUAL, nextAlert.visual)
+            },
+        )
+    }
+
+    private fun isDebuggable(): Boolean =
+        applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
+
     private fun openFullScreenIntentSettings() {
         startActivity(
             Intent(
@@ -89,5 +128,13 @@ class MainActivity : ComponentActivity() {
                 Uri.parse("package:$packageName"),
             ),
         )
+    }
+
+    private companion object {
+        const val DEBUG_PREVIEW_DELAY_SECONDS = 5
+        const val EXTRA_DELAY_SECONDS = "delaySeconds"
+        const val EXTRA_TASK_ID = "taskId"
+        const val EXTRA_VISUAL = "visual"
+        const val TAG = "MainActivity"
     }
 }
