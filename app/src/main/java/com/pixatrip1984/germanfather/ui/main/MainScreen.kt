@@ -23,6 +23,8 @@ fun MainScreen(
     state: MainScreenState,
     onRequestNotifications: () -> Unit,
     onOpenFullScreenSettings: () -> Unit,
+    showDebugTestButton: Boolean = false,
+    onTestNextAlarm: () -> Unit = {},
 ) {
     MaterialTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
@@ -67,6 +69,12 @@ fun MainScreen(
                             Text(row.time)
                             Text(row.taskId)
                         }
+                    }
+                }
+
+                if (showDebugTestButton) {
+                    Button(onClick = onTestNextAlarm) {
+                        Text("PROBAR ALARMA SIGUIENTE")
                     }
                 }
 
