@@ -15,17 +15,21 @@ class SharedPreferencesAlarmMetadataStore(context: Context) : AlarmMetadataStore
     }
 
     override fun save(metadata: AlarmMetadata) {
-        preferences.edit()
-            .putString(KEY_OCCURRENCE_ID, metadata.occurrenceId)
-            .putLong(KEY_TRIGGER_EPOCH_MILLIS, metadata.triggerEpochMillis)
-            .apply()
+        check(
+            preferences.edit()
+                .putString(KEY_OCCURRENCE_ID, metadata.occurrenceId)
+                .putLong(KEY_TRIGGER_EPOCH_MILLIS, metadata.triggerEpochMillis)
+                .commit(),
+        ) { "Unable to persist alarm metadata" }
     }
 
     override fun clear() {
-        preferences.edit()
-            .remove(KEY_OCCURRENCE_ID)
-            .remove(KEY_TRIGGER_EPOCH_MILLIS)
-            .apply()
+        check(
+            preferences.edit()
+                .remove(KEY_OCCURRENCE_ID)
+                .remove(KEY_TRIGGER_EPOCH_MILLIS)
+                .commit(),
+        ) { "Unable to clear alarm metadata" }
     }
 
     private companion object {
