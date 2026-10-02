@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import com.pixatrip1984.germanfather.alarm.AndroidAlarmPlatform
+import com.pixatrip1984.germanfather.alarm.AlarmUiRescheduleGate
 import com.pixatrip1984.germanfather.alarm.SchedulerStatus
 import com.pixatrip1984.germanfather.alarm.SharedPreferencesAlarmMetadataStore
 import java.time.Clock
@@ -35,6 +36,9 @@ class TestAlarmHarnessActivity : Activity() {
         val visual = intent.getStringExtra(EXTRA_VISUAL)
             ?: DebugAlarmHarnessScheduler.TEST_VISUAL
 
+        val rescheduleGate = AlarmUiRescheduleGate(applicationContext)
+        rescheduleGate.suppressNextUiResume()
+
         val status = DebugAlarmHarnessScheduler(
             platform = AndroidAlarmPlatform(applicationContext),
             metadataStore = SharedPreferencesAlarmMetadataStore(applicationContext),
@@ -49,8 +53,10 @@ class TestAlarmHarnessActivity : Activity() {
         when (status) {
             is SchedulerStatus.Armed ->
                 Log.i(TAG, "debug alarm armed for " + status.request.triggerEpochMillis)
-            is SchedulerStatus.NotArmed ->
+            is SchedulerStatus.NotArmed -> {
+                rescheduleGate.clear()
                 Log.e(TAG, "debug alarm not armed: " + status.reason)
+            }
         }
         finish()
     }
