@@ -9,7 +9,7 @@ class SharedPreferencesAudioRotationStore(context: Context) : AudioRotationIndex
     override fun currentIndex(): Int = preferences.getInt(KEY_NEXT_INDEX, 0)
 
     override fun saveNextIndex(index: Int) {
-        preferences.edit().putInt(KEY_NEXT_INDEX, index).apply()
+        preferences.edit().putInt(KEY_NEXT_INDEX, index).commit()
     }
 
     private companion object {
