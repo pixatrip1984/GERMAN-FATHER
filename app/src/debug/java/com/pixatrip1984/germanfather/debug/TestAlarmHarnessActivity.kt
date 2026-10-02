@@ -16,16 +16,14 @@ class TestAlarmHarnessActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         scheduled = savedInstanceState?.getBoolean(STATE_SCHEDULED) ?: false
+        if (!scheduled) {
+            scheduled = true
+            scheduleAlarm()
+        }
+        finish()
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (scheduled) {
-            finish()
-            return
-        }
-        scheduled = true
-
+    private fun scheduleAlarm() {
         val requestedDelay = intent.getIntExtra(
             EXTRA_DELAY_SECONDS,
             DebugAlarmHarnessScheduler.DEFAULT_DELAY_SECONDS,
@@ -58,7 +56,6 @@ class TestAlarmHarnessActivity : Activity() {
                 Log.e(TAG, "debug alarm not armed: " + status.reason)
             }
         }
-        finish()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
