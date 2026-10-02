@@ -10,13 +10,18 @@ class AlarmDeliveryReceiver : BroadcastReceiver() {
         if (intent.action != AlarmIntents.ACTION_DELIVER) return
 
         val occurrenceId = intent.getStringExtra(AlarmIntents.EXTRA_OCCURRENCE_ID)
+        val visual = intent.getStringExtra(AlarmIntents.EXTRA_VISUAL)
+        Log.i(TAG, "AlarmDeliveryReceiver received occurrenceId=$occurrenceId visual=$visual")
         val epoch = intent
             .takeIf { it.hasExtra(AlarmIntents.EXTRA_TRIGGER_EPOCH_MILLIS) }
             ?.getLongExtra(AlarmIntents.EXTRA_TRIGGER_EPOCH_MILLIS, 0L)
 
         val accepted = AlarmDeliveryGuard(SharedPreferencesAlarmMetadataStore(context))
             .consumeIfCurrent(occurrenceId, epoch)
-        if (!accepted) return
+        if (!accepted) {
+            Log.w(TAG, "AlarmDeliveryReceiver rejected occurrenceId=$occurrenceId")
+            return
+        }
 
         AlarmWakeLock.acquire(context)
 
