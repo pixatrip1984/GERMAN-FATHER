@@ -13,8 +13,12 @@ class AlarmDeliveryReceiver : BroadcastReceiver() {
             .takeIf { it.hasExtra(AlarmIntents.EXTRA_TRIGGER_EPOCH_MILLIS) }
             ?.getLongExtra(AlarmIntents.EXTRA_TRIGGER_EPOCH_MILLIS, 0L)
 
-        AlarmDeliveryGuard(SharedPreferencesAlarmMetadataStore(context))
+        val accepted = AlarmDeliveryGuard(SharedPreferencesAlarmMetadataStore(context))
             .consumeIfCurrent(occurrenceId, epoch)
+
+        if (accepted) {
+            AlarmRuntime.coordinator(context).reschedule()
+        }
 
         // Audio and full-screen delivery are intentionally implemented by the next task.
     }
