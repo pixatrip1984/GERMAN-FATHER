@@ -10,6 +10,7 @@ import android.content.pm.ServiceInfo
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.IBinder
+import android.os.PowerManager
 import android.util.Log
 import com.pixatrip1984.germanfather.media.AudioRotation
 import com.pixatrip1984.germanfather.media.SharedPreferencesAudioRotationStore
@@ -73,6 +74,7 @@ class AlarmPlaybackService : Service() {
 
         val mediaPlayer = MediaPlayer()
         player = mediaPlayer
+        mediaPlayer.setWakeMode(this, PowerManager.PARTIAL_WAKE_LOCK)
         mediaPlayer.setAudioAttributes(
             AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_ALARM)
