@@ -1,21 +1,93 @@
 package com.pixatrip1984.germanfather
 
+import android.Manifest
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.mutableStateOf
+import com.pixatrip1984.germanfather.alarm.AlarmRuntime
+import com.pixatrip1984.germanfather.permissions.AlarmCapabilityReader
+import com.pixatrip1984.germanfather.schedule.AndroidScheduleLoader
+import com.pixatrip1984.germanfather.schedule.ScheduleEngine
+import com.pixatrip1984.germanfather.ui.main.MainScreen
+import com.pixatrip1984.germanfather.ui.main.MainScreenState
+import com.pixatrip1984.germanfather.ui.main.MainScreenStateFactory
+import java.time.Clock
+import java.time.ZoneId
 
 class MainActivity : ComponentActivity() {
+    private val screenState = mutableStateOf<MainScreenState?>(null)
+
+    private val notificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            refreshScreen()
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
-                Surface {
-                    Text("GERMAN FATHER")
+            val state = screenState.value
+            if (state == null) {
+                MaterialTheme {
+                    Surface {
+                        Text("GERMAN FATHER")
+                    }
                 }
+            } else {
+                MainScreen(
+                    state = state,
+                    onRequestNotifications = {
+                        notificationPermissionLauncher.launch(
+                            Manifest.permission.POST_NOTIFICATIONS,
+                        )
+                    },
+                    onOpenFullScreenSettings = ::openFullScreenIntentSettings,
+                )
             }
         }
+        refreshScreen()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshScreen()
+    }
+
+    private fun refreshScreen() {
+        val schedule = AndroidScheduleLoader.load(assets)
+        val zoneId = ZoneId.systemDefault()
+        val clock = Clock.system(zoneId)
+        val engine = ScheduleEngine(
+            schedule = schedule,
+            clock = clock,
+            zoneId = zoneId,
+        )
+        val schedulerStatus = AlarmRuntime.coordinator(this).reschedule()
+        val capabilities = AlarmCapabilityReader.read(this)
+        val now = clock.instant().atZone(zoneId)
+
+        screenState.value = MainScreenStateFactory.create(
+            schedule = schedule,
+            engine = engine,
+            now = now,
+            capabilities = capabilities,
+            schedulerStatus = schedulerStatus,
+        )
+    }
+
+    private fun openFullScreenIntentSettings() {
+        startActivity(
+            Intent(
+                Settings.ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT,
+                Uri.parse("package:$packageName"),
+            ),
+        )
     }
 }
