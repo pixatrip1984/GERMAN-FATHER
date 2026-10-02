@@ -136,3 +136,39 @@ Pressing it reads the next real alert from `schedule.json` through `ScheduleEngi
 
 After the simulated alarm finishes, the production coordinator arms the actual next future timetable alarm again.
 
+## Alarm presentation regression acceptance
+
+Build the exact checkout under test:
+
+```powershell
+.\gradlew.bat :app:testDebugUnitTest :app:lintDebug :app:assembleDebug --no-daemon
+adb install -r .\app\build\outputs\apk\debug\app-debug.apk
+```
+
+The APK under test must be exactly:
+
+```text
+app\build\outputs\apk\debug\app-debug.apk
+```
+
+Capture app/runtime diagnostics before each physical test:
+
+```powershell
+adb logcat -c
+adb logcat AlarmDeliveryReceiver:I AlarmPlaybackService:I AlarmActivity:I MainActivity:I AndroidRuntime:E *:S
+```
+
+Unlocked-device test: keep GERMAN FATHER visible, press **PROBAR ALARMA SIGUIENTE**, and confirm one MP3 starts, AlarmActivity replaces the normal screen with the scheduled image, there is no dismiss/snooze control, and the alarm UI closes when playback completes.
+
+Locked-device test:
+
+```powershell
+adb shell am start -n com.pixatrip1984.germanfather/.debug.TestAlarmHarnessActivity --ei delaySeconds 60
+```
+
+Lock the device immediately and wait at least 75 seconds. Confirm the screen wakes, AlarmActivity appears over the lock screen, the scheduled image is visible, exactly one MP3 plays, and no AndroidRuntime fatal exception occurs.
+
+Expected diagnostic milestones include: `AlarmDeliveryReceiver received`, `AlarmPlaybackService start`, `Full-screen notification posted`, `playback started`, `AlarmActivity onCreate`, `visual asset opened`, `bitmap decoded`, `content view installed`, and `playback completed`.
+
+Android intentionally uses an expanded heads-up notification instead of launching a full-screen intent while another app is actively being used. The explicit unlocked visual path is therefore provided when GERMAN FATHER itself is the visible foreground activity; the lock-screen path continues to use the alarm full-screen intent.
+
