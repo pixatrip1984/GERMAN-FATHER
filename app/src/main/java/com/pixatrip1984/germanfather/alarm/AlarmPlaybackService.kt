@@ -42,7 +42,7 @@ class AlarmPlaybackService : Service() {
             return START_NOT_STICKY
         }
         activeOccurrenceId = occurrenceId
-        AlarmPlaybackLifecycle.markActive(occurrenceId)
+        AlarmPlaybackStateStore(this).markActive(occurrenceId)
 
         try {
             createNotificationChannel()
@@ -166,7 +166,7 @@ class AlarmPlaybackService : Service() {
         player?.release()
         player = null
 
-        AlarmPlaybackLifecycle.clear()
+        AlarmPlaybackStateStore(this).clear()
         sendBroadcast(
             Intent(AlarmUiSignals.ACTION_FINISHED)
                 .setPackage(packageName),
