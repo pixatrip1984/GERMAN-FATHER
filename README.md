@@ -127,3 +127,12 @@ adb shell dumpsys alarm | findstr com.pixatrip1984.germanfather
 ```
 
 The reboot/missed-alarm and lock-screen behavior are physical-device acceptance checks; JVM tests cannot establish those observations.
+
+## Temporary in-app alarm test button
+
+Debug APKs show a temporary **PROBAR ALARMA SIGUIENTE** button on the normal schedule screen. The button is hidden in non-debuggable/release builds.
+
+Pressing it reads the next real alert from `schedule.json` through `ScheduleEngine`, then schedules that same task/visual five seconds in the future through the debug harness and the normal AlarmManager → receiver → foreground playback service → full-screen notification → AlarmActivity path. It does not edit the timetable. Lock the phone immediately after pressing it to validate the lock-screen presentation.
+
+After the simulated alarm finishes, the production coordinator arms the actual next future timetable alarm again.
+

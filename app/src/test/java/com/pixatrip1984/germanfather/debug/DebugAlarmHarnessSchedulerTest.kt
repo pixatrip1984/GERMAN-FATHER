@@ -42,6 +42,28 @@ class DebugAlarmHarnessSchedulerTest {
     }
 
     @Test
+    fun schedulesRequestedNextAlertMetadataForUiPreview() {
+        val platform = FakePlatform(canSchedule = true)
+        val store = InMemoryMetadataStore()
+
+        DebugAlarmHarnessScheduler(
+            platform = platform,
+            metadataStore = store,
+            clock = clock,
+            zoneId = zoneId,
+        ).schedule(
+            delaySeconds = 5,
+            taskId = "COMER",
+            visual = "COMER.png",
+        )
+
+        val request = platform.scheduled.single()
+        assertEquals("COMER", request.taskId)
+        assertEquals("COMER.png", request.visual)
+        assertEquals(clock.instant().plusSeconds(5).toEpochMilli(), request.triggerEpochMillis)
+    }
+
+    @Test
     fun replacesExistingProductionOccurrenceRatherThanAddingASecondAlarm() {
         val platform = FakePlatform(canSchedule = true)
         val store = InMemoryMetadataStore(

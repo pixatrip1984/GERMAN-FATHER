@@ -26,7 +26,8 @@
             android:name=".ui.alarm.AlarmActivity"
             android:excludeFromRecents="true"
             android:exported="false"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Material.NoActionBar.Fullscreen" />
 
         <service
             android:name=".alarm.AlarmPlaybackService"
