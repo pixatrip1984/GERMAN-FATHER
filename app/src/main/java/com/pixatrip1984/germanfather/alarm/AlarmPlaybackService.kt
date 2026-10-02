@@ -135,8 +135,12 @@ class AlarmPlaybackService : Service() {
     private fun fullScreenIntentFor(
         occurrenceId: String,
         visual: String,
-    ): PendingIntent =
-        PendingIntent.getActivity(
+    ): PendingIntent {
+        val creatorOptions = ActivityOptions.makeBasic()
+            .setPendingIntentCreatorBackgroundActivityStartMode(
+                ActivityOptions.MODE_BACKGROUND_ACTIVITY_START_ALLOWED,
+            )
+        return PendingIntent.getActivity(
             this,
             FULL_SCREEN_REQUEST_CODE,
             Intent(this, AlarmActivity::class.java)
@@ -148,7 +152,9 @@ class AlarmPlaybackService : Service() {
                         Intent.FLAG_ACTIVITY_SINGLE_TOP,
                 ),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            creatorOptions.toBundle(),
         )
+    }
 
     private fun maybeLaunchAlarmActivity(fullScreenIntent: PendingIntent) {
         val notificationManager =
