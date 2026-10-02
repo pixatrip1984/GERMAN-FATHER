@@ -10,8 +10,8 @@ import com.pixatrip1984.germanfather.MainActivity
 class AndroidAlarmPlatform(
     private val context: Context,
 ) : AlarmPlatform {
-    private val alarmManager =
-        context.getSystemService(AlarmManager::class.java)
+    private val alarmManager: AlarmManager =
+        requireNotNull(context.getSystemService(AlarmManager::class.java))
 
     override fun canScheduleExactAlarms(): Boolean =
         alarmManager.canScheduleExactAlarms()
