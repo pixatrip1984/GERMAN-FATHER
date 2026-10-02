@@ -48,7 +48,7 @@ class AlarmActivity : Activity() {
         }
 
         val bitmap = runCatching {
-            assets.open(visual).use(BitmapFactory::decodeStream)
+            assets.open(visual).use { input -> BitmapFactory.decodeStream(input) }
         }.getOrNull()
         if (bitmap == null) {
             finishAndRemoveTask()
@@ -65,7 +65,7 @@ class AlarmActivity : Activity() {
         registerReceiver(
             finishReceiver,
             IntentFilter(AlarmUiSignals.ACTION_FINISHED),
-            RECEIVER_NOT_EXPORTED,
+            Context.RECEIVER_NOT_EXPORTED,
         )
         receiverRegistered = true
     }
