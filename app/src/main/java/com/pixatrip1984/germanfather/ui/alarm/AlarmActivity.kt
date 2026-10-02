@@ -30,7 +30,6 @@ class AlarmActivity : Activity() {
         setShowWhenLocked(true)
         setTurnScreenOn(true)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        window.setDecorFitsSystemWindows(false)
         window.insetsController?.hide(
             WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars(),
         )
