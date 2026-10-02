@@ -3,6 +3,7 @@ package com.pixatrip1984.germanfather.alarm
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 
 class AlarmDeliveryReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -15,11 +16,29 @@ class AlarmDeliveryReceiver : BroadcastReceiver() {
 
         val accepted = AlarmDeliveryGuard(SharedPreferencesAlarmMetadataStore(context))
             .consumeIfCurrent(occurrenceId, epoch)
+        if (!accepted) return
 
-        if (accepted) {
+        val serviceIntent = Intent(context, AlarmPlaybackService::class.java)
+            .setAction(AlarmPlaybackService.ACTION_START)
+            .putExtra(AlarmIntents.EXTRA_OCCURRENCE_ID, occurrenceId)
+            .putExtra(
+                AlarmIntents.EXTRA_TASK_ID,
+                intent.getStringExtra(AlarmIntents.EXTRA_TASK_ID),
+            )
+            .putExtra(
+                AlarmIntents.EXTRA_VISUAL,
+                intent.getStringExtra(AlarmIntents.EXTRA_VISUAL),
+            )
+
+        try {
+            context.startForegroundService(serviceIntent)
+        } catch (error: Exception) {
+            Log.e(TAG, "failed to start alarm foreground service occurrence=" + occurrenceId, error)
             AlarmRuntime.coordinator(context).reschedule()
         }
+    }
 
-        // Audio and full-screen delivery are intentionally implemented by the next task.
+    private companion object {
+        const val TAG = "AlarmDeliveryReceiver"
     }
 }
