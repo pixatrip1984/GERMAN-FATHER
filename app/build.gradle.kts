@@ -28,6 +28,12 @@ android {
     buildFeatures {
         compose = true
     }
+
+    sourceSets {
+        getByName("main") {
+            assets.srcDirs("src/main/assets", "../AUDIOS", "../VISUAL")
+        }
+    }
 }
 
 dependencies {
@@ -35,6 +41,7 @@ dependencies {
     implementation(platform("androidx.compose:compose-bom:2024.09.03"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.material3:material3")
+    implementation("com.google.code.gson:gson:2.11.0")
 
     testImplementation("junit:junit:4.13.2")
 }
