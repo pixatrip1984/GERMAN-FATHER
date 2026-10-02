@@ -1,5 +1,7 @@
 package com.pixatrip1984.germanfather.alarm
 
+import android.app.ActivityOptions
+import android.app.KeyguardManager
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -53,8 +55,11 @@ class AlarmPlaybackService : Service() {
                 ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK,
             )
             startPlayback(occurrenceId)
+            maybeLaunchAlarmActivity(fullScreenIntentFor(occurrenceId, visual))
+            AlarmWakeLock.release()
         } catch (error: Exception) {
             Log.e(TAG, "alarm playback failed for occurrence=" + occurrenceId, error)
+            AlarmWakeLock.release()
             finishAlarm("startup failure", error)
         }
 
@@ -113,15 +118,7 @@ class AlarmPlaybackService : Service() {
         taskId: String,
         visual: String,
     ): Notification {
-        val fullScreenIntent = PendingIntent.getActivity(
-            this,
-            FULL_SCREEN_REQUEST_CODE,
-            Intent(this, AlarmActivity::class.java)
-                .putExtra(AlarmIntents.EXTRA_OCCURRENCE_ID, occurrenceId)
-                .putExtra(AlarmIntents.EXTRA_VISUAL, visual)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP),
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-        )
+        val fullScreenIntent = fullScreenIntentFor(occurrenceId, visual)
 
         return Notification.Builder(this, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
@@ -133,6 +130,59 @@ class AlarmPlaybackService : Service() {
             .setAutoCancel(false)
             .setFullScreenIntent(fullScreenIntent, true)
             .build()
+    }
+
+    private fun fullScreenIntentFor(
+        occurrenceId: String,
+        visual: String,
+    ): PendingIntent =
+        PendingIntent.getActivity(
+            this,
+            FULL_SCREEN_REQUEST_CODE,
+            Intent(this, AlarmActivity::class.java)
+                .putExtra(AlarmIntents.EXTRA_OCCURRENCE_ID, occurrenceId)
+                .putExtra(AlarmIntents.EXTRA_VISUAL, visual)
+                .addFlags(
+                    Intent.FLAG_ACTIVITY_NEW_TASK or
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                        Intent.FLAG_ACTIVITY_SINGLE_TOP,
+                ),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
+
+    private fun maybeLaunchAlarmActivity(fullScreenIntent: PendingIntent) {
+        val notificationManager =
+            requireNotNull(getSystemService(NotificationManager::class.java))
+        if (!notificationManager.canUseFullScreenIntent()) {
+            Log.w(TAG, "full-screen alarm access unavailable; notification fallback only")
+            return
+        }
+
+        val keyguardManager =
+            requireNotNull(getSystemService(KeyguardManager::class.java))
+        val powerManager =
+            requireNotNull(getSystemService(PowerManager::class.java))
+        if (!keyguardManager.isKeyguardLocked && powerManager.isInteractive) {
+            return
+        }
+
+        val options = ActivityOptions.makeBasic()
+            .setPendingIntentBackgroundActivityStartMode(
+                ActivityOptions.MODE_BACKGROUND_ACTIVITY_START_ALLOWED,
+            )
+        runCatching {
+            fullScreenIntent.send(
+                this,
+                0,
+                null,
+                null,
+                null,
+                null,
+                options.toBundle(),
+            )
+        }.onFailure {
+            Log.e(TAG, "direct locked-screen alarm activity launch failed", it)
+        }
     }
 
     private fun createNotificationChannel() {
