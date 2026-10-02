@@ -77,17 +77,21 @@ class AlarmActivity : Activity() {
             Log.i(TAG, "content view installed visual=$visual")
 
             imageView.post {
-                val controller = imageView.windowInsetsController
-                if (controller == null) {
-                    Log.w(TAG, "WindowInsetsController unavailable after view attach")
-                    return@post
+                try {
+                    val controller = imageView.windowInsetsController
+                    if (controller == null) {
+                        Log.w(TAG, "WindowInsetsController unavailable after view attach")
+                        return@post
+                    }
+                    controller.systemBarsBehavior =
+                        WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                    controller.hide(
+                        WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars(),
+                    )
+                    Log.i(TAG, "system bars hidden after content view attach")
+                } catch (error: Exception) {
+                    Log.e(TAG, "system bar configuration failed after view attach", error)
                 }
-                controller.systemBarsBehavior =
-                    WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-                controller.hide(
-                    WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars(),
-                )
-                Log.i(TAG, "system bars hidden after content view attach")
             }
         } catch (error: Exception) {
             Log.e(TAG, "AlarmActivity visual render failed visual=$visual", error)
