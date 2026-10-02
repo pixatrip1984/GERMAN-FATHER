@@ -7,7 +7,6 @@ import android.os.Bundle
 class GermanFatherApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        AlarmRuntime.coordinator(this).reschedule()
         registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityStarted(activity: Activity) {
                 AlarmRuntime.coordinator(this@GermanFatherApplication).reschedule()
