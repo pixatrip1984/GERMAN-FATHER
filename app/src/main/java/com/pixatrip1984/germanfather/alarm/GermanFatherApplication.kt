@@ -8,7 +8,7 @@ class GermanFatherApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         AlarmRuntime.coordinator(this).reschedule()
-        registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
+        registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityStarted(activity: Activity) {
                 AlarmRuntime.coordinator(this@GermanFatherApplication).reschedule()
             }
