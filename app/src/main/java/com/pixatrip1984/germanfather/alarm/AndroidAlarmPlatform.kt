@@ -58,7 +58,13 @@ class AndroidAlarmPlatform(
     private fun baseDeliveryIntent(occurrenceId: String): Intent =
         Intent(context, AlarmDeliveryReceiver::class.java)
             .setAction(AlarmIntents.ACTION_DELIVER)
-            .setData(Uri.parse("germanfather://alarm/$occurrenceId"))
+            .setData(
+                Uri.Builder()
+                    .scheme("germanfather")
+                    .authority("alarm")
+                    .appendPath(occurrenceId)
+                    .build(),
+            )
 
     private companion object {
         const val DELIVERY_REQUEST_CODE = 41001
