@@ -44,6 +44,7 @@ class AlarmPlaybackService : Service() {
             return START_NOT_STICKY
         }
         activeOccurrenceId = occurrenceId
+        Log.i(TAG, "AlarmPlaybackService start occurrenceId=$occurrenceId taskId=$taskId visual=$visual")
 
         try {
             AlarmPlaybackStateStore(this).markActive(occurrenceId)
@@ -54,7 +55,9 @@ class AlarmPlaybackService : Service() {
                 notification,
                 ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK,
             )
+            Log.i(TAG, "Full-screen notification posted occurrenceId=$occurrenceId")
             startPlayback(occurrenceId)
+            requestForegroundPresentation(occurrenceId, visual)
             maybeLaunchAlarmActivity(fullScreenIntentFor(occurrenceId, visual))
             AlarmWakeLock.release()
         } catch (error: Exception) {
@@ -87,6 +90,7 @@ class AlarmPlaybackService : Service() {
                 .build(),
         )
         mediaPlayer.setOnCompletionListener {
+            Log.i(TAG, "playback completed occurrenceId=$occurrenceId")
             finishAlarm("completed", null)
         }
         mediaPlayer.setOnErrorListener { _, what, extra ->
@@ -110,6 +114,7 @@ class AlarmPlaybackService : Service() {
         }
         mediaPlayer.prepare()
         mediaPlayer.start()
+        Log.i(TAG, "playback started occurrenceId=$occurrenceId asset=" + selection.assetName)
         rotation.advanceAfterPlaybackStarted(selection, schedule.audioRotation.size)
     }
 
@@ -154,6 +159,19 @@ class AlarmPlaybackService : Service() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
             creatorOptions.toBundle(),
         )
+    }
+
+    private fun requestForegroundPresentation(
+        occurrenceId: String,
+        visual: String,
+    ) {
+        sendBroadcast(
+            Intent(AlarmUiSignals.ACTION_PRESENT)
+                .setPackage(packageName)
+                .putExtra(AlarmIntents.EXTRA_OCCURRENCE_ID, occurrenceId)
+                .putExtra(AlarmIntents.EXTRA_VISUAL, visual),
+        )
+        Log.i(TAG, "foreground presentation signal sent occurrenceId=$occurrenceId visual=$visual")
     }
 
     private fun maybeLaunchAlarmActivity(fullScreenIntent: PendingIntent) {
