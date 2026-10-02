@@ -18,6 +18,8 @@ class AlarmDeliveryReceiver : BroadcastReceiver() {
             .consumeIfCurrent(occurrenceId, epoch)
         if (!accepted) return
 
+        AlarmWakeLock.acquire(context)
+
         val serviceIntent = Intent(context, AlarmPlaybackService::class.java)
             .setAction(AlarmPlaybackService.ACTION_START)
             .putExtra(AlarmIntents.EXTRA_OCCURRENCE_ID, occurrenceId)
@@ -33,6 +35,7 @@ class AlarmDeliveryReceiver : BroadcastReceiver() {
         try {
             context.startForegroundService(serviceIntent)
         } catch (error: Exception) {
+            AlarmWakeLock.release()
             Log.e(TAG, "failed to start alarm foreground service occurrence=" + occurrenceId, error)
             AlarmRuntime.coordinator(context).reschedule()
         }
