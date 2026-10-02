@@ -16,6 +16,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.mutableStateOf
 import com.pixatrip1984.germanfather.alarm.AlarmRuntime
+import com.pixatrip1984.germanfather.alarm.AlarmUiRescheduleGate
 import com.pixatrip1984.germanfather.permissions.AlarmCapabilityReader
 import com.pixatrip1984.germanfather.schedule.AndroidScheduleLoader
 import com.pixatrip1984.germanfather.schedule.ScheduleEngine
@@ -63,6 +64,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
+        if (AlarmUiRescheduleGate(this).consumeSuppression()) {
+            return
+        }
         refreshScreen()
     }
 
