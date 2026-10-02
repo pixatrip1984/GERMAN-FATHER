@@ -11,7 +11,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.ImageView
 import com.pixatrip1984.germanfather.alarm.AlarmIntents
-import com.pixatrip1984.germanfather.alarm.AlarmPlaybackLifecycle
+import com.pixatrip1984.germanfather.alarm.AlarmPlaybackStateStore
 import com.pixatrip1984.germanfather.alarm.AlarmUiSignals
 
 class AlarmActivity : Activity() {
@@ -35,7 +35,7 @@ class AlarmActivity : Activity() {
         )
 
         val occurrenceId = intent.getStringExtra(AlarmIntents.EXTRA_OCCURRENCE_ID)
-        if (!AlarmPlaybackLifecycle.isActive(occurrenceId)) {
+        if (!AlarmPlaybackStateStore(this).isActive(occurrenceId)) {
             finishAndRemoveTask()
             return
         }
