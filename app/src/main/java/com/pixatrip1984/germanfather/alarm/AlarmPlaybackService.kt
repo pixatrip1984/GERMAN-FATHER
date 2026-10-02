@@ -42,9 +42,9 @@ class AlarmPlaybackService : Service() {
             return START_NOT_STICKY
         }
         activeOccurrenceId = occurrenceId
-        AlarmPlaybackStateStore(this).markActive(occurrenceId)
 
         try {
+            AlarmPlaybackStateStore(this).markActive(occurrenceId)
             createNotificationChannel()
             val notification = buildAlarmNotification(occurrenceId, taskId, visual)
             startForeground(
@@ -166,13 +166,17 @@ class AlarmPlaybackService : Service() {
         player?.release()
         player = null
 
-        AlarmPlaybackStateStore(this).clear()
-        sendBroadcast(
-            Intent(AlarmUiSignals.ACTION_FINISHED)
-                .setPackage(packageName),
-        )
+        runCatching { AlarmPlaybackStateStore(this).clear() }
+            .onFailure { Log.e(TAG, "failed to clear active playback state", it) }
+        runCatching {
+            sendBroadcast(
+                Intent(AlarmUiSignals.ACTION_FINISHED)
+                    .setPackage(packageName),
+            )
+        }.onFailure { Log.e(TAG, "failed to signal alarm UI completion", it) }
         stopForeground(STOP_FOREGROUND_REMOVE)
-        AlarmRuntime.coordinator(this).reschedule()
+        runCatching { AlarmRuntime.coordinator(this).reschedule() }
+            .onFailure { Log.e(TAG, "failed to schedule next alarm", it) }
         stopSelf()
     }
 
