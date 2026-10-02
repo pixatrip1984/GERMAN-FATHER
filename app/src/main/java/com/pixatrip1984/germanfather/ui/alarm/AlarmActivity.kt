@@ -11,6 +11,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.ImageView
 import com.pixatrip1984.germanfather.alarm.AlarmIntents
+import com.pixatrip1984.germanfather.alarm.AlarmPlaybackLifecycle
 import com.pixatrip1984.germanfather.alarm.AlarmUiSignals
 
 class AlarmActivity : Activity() {
@@ -33,6 +34,12 @@ class AlarmActivity : Activity() {
         window.insetsController?.hide(
             WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars(),
         )
+
+        val occurrenceId = intent.getStringExtra(AlarmIntents.EXTRA_OCCURRENCE_ID)
+        if (!AlarmPlaybackLifecycle.isActive(occurrenceId)) {
+            finishAndRemoveTask()
+            return
+        }
 
         val visual = intent.getStringExtra(AlarmIntents.EXTRA_VISUAL)
         if (visual.isNullOrBlank()) {
